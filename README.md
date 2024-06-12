@@ -1,9 +1,11 @@
-Projeyi SQL Servera çekmek için;
+#Projeyi SQL Servera çekmek için;
 
-Ana Dizinde iken;
+###Ana Dizinde iken;
 
-dotnet ef migrations add InitialCreate --context ApplicationContext --startup-project shopapp.webui
+1. dotnet ef migrations add InitialCreate --context ApplicationContext --startup-project shopapp.webui
 
-dotnet ef migrations add InitialCreate --context ApplicationContext --startup-project shopapp.webui --project shopapp.data
+2. dotnet ef migrations add InitialCreate --context ApplicationContext --startup-project shopapp.webui --project shopapp.data
 
-
+NOT;
+* Projenin başlangıç ayarları yapılmalı webui a başlama verilmeli
+* appsettings.json dosyasında bulunan sql server yolu bilgisayara göre değiştirilmeli
