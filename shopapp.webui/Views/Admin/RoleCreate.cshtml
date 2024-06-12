@@ -1,4 +1,4 @@
-@model RoleModel
+﻿@* @model RoleModel
 
 <h1 class="h3">Create Role</h1>
 <hr>
@@ -24,6 +24,37 @@
 
 @section Scripts
 {
+    <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+} *@
+
+@model RoleModel
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-dark text-white text-center">
+            <h2>Rol Oluştur</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="RoleCreate" method="POST">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Rol Adı</label>
+                    <input class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-secondary w-100">Rolü Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
     <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }

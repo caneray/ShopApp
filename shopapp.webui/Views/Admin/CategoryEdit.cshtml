@@ -1,4 +1,4 @@
-@model CategoryModel
+@* @model CategoryModel
 
 <h1 class="h3">Edit Category</h1>
 <hr>
@@ -104,6 +104,114 @@
 
 @section Scripts
 {
+    <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+} *@
+
+
+@model CategoryModel
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-dark text-white text-center">
+            <h2>Kategori Düzenle</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="CategoryEdit" method="POST">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <input type="hidden" name="CategoryId" value="@Model.CategoryId">
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Kategori Adı</label>
+                    <input class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Url" class="form-label">Kategori Linki</label>
+                    <input class="form-control" asp-for="Url">
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-secondary w-100">Kategoriyi Kaydet</button>
+                </div>
+
+                <div id="products">
+                    @for (int i = 0; i < Model.Products.Count; i++)
+                    {
+                        <input type="hidden" name="Products[@i].ProductId" value="@Model.Products[@i].ProductId">
+                        <input type="hidden" name="Products[@i].ImageUrl" value="@Model.Products[@i].ImageUrl">
+                        <input type="hidden" name="Products[@i].Name" value="@Model.Products[@i].Name">
+                        <input type="hidden" name="Products[@i].Price" value="@Model.Products[@i].Price">
+                        <input type="hidden" name="Products[@i].IsApproved" value="@Model.Products[@i].IsApproved.ToString()">
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-header bg-dark text-white text-center">
+            <h2>Bu Kategorideki Ürünler</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">Id</th>
+                        <th style="width: 100px;">Resim</th>
+                        <th>Ürün Adı</th>
+                        <th style="width: 50px;">Fiyat&#8378</th>
+                        <th style="width: 115px;">Onaylı Ürün</th>
+                        <th style="width: 150px;">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Products.Count > 0)
+                    {
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr>
+                                <td>@item.ProductId</td>
+                                <td><img src="~/img/@item.ImageUrl" class="img-thumbnail" width="80"></td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td class="text-center">
+                                    @if (item.IsApproved)
+                                    {
+                                        <i class="fas fa-check text-success"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/admin/products/@item.ProductId" class="btn btn-info btn-sm mr-2">Düzenle</a>
+                                    <form action="/admin/deletefromcategory" method="POST" class="d-inline">
+                                        <input type="hidden" name="productId" value="@item.ProductId">
+                                        <input type="hidden" name="categoryId" value="@Model.CategoryId">
+                                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-warning">Hiç ürün yok</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
     <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }

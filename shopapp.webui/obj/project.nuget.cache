@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zblwwdFyFSnBB5gZqpNhxVdTEBOX+iX8ewiKVZkn/ANz5wDMFs0ZNN39g+/nhvoJOmTg6cAq4YlRG/yCVmywLw==",
+  "dgSpecHash": "KgVMPES8DTygCItN9Hh/zX2O7GlBBHON+OeYs+XwG22lKat480E1zV2qV5ncSRiFlrP9ju1eYjycyJ0LAWpmww==",
   "success": true,
   "projectFilePath": "C:\\Users\\caner\\OneDrive\\Masaüstü\\shopapp\\shopapp.webui\\shopapp.webui.csproj",
   "expectedPackageFiles": [
@@ -108,11 +108,7 @@
     "C:\\Users\\caner\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\caner\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\caner\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\caner\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\caner\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\caner\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\caner\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\caner\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.32\\microsoft.netcore.app.host.win-x64.3.1.32.nupkg.sha512"
+    "C:\\Users\\caner\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,35 +1,555 @@
+﻿
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
+    <title>AY Store</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link rel="stylesheet" href="/modules/bootstrap/dist/css/bootstrap.min.css" crossorigin="anonymous">
-     @RenderSection("Css",false)
-    <link rel="stylesheet" href="~/css/style.css">
-    <title>Shopapp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @RenderSection("Css",false)
+
+    <link rel="icon" type="image/png" href="/temp/images/icons/favicon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/fonts/iconic/css/material-design-iconic-font.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/fonts/linearicons-v1.0.0/icon-font.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/animate/animate.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/css-hamburgers/hamburgers.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/animsition/css/animsition.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/select2/select2.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/daterangepicker/daterangepicker.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/slick/slick.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/MagnificPopup/magnific-popup.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/vendor/perfect-scrollbar/perfect-scrollbar.css">
+
+    <link rel="stylesheet" type="text/css" href="/temp/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/temp/css/main.css">
+
+    <script nonce="bc9aeea2-2883-4545-83c2-99ff49a7b614">try { (function (w, d) { !function (j, k, l, m) { j[l] = j[l] || {}; j[l].executed = []; j.zaraz = { deferred: [], listeners: [] }; j.zaraz._v = "5621"; j.zaraz.q = []; j.zaraz._f = function (n) { return async function () { var o = Array.prototype.slice.call(arguments); j.zaraz.q.push({ m: n, a: o }) } }; for (const p of ["track", "set", "debug"]) j.zaraz[p] = j.zaraz._f(p); j.zaraz.init = () => { var q = k.getElementsByTagName(m)[0], r = k.createElement(m), s = k.getElementsByTagName("title")[0]; s && (j[l].t = k.getElementsByTagName("title")[0].text); j[l].x = Math.random(); j[l].w = j.screen.width; j[l].h = j.screen.height; j[l].j = j.innerHeight; j[l].e = j.innerWidth; j[l].l = j.location.href; j[l].r = k.referrer; j[l].k = j.screen.colorDepth; j[l].n = k.characterSet; j[l].o = (new Date).getTimezoneOffset(); if (j.dataLayer) for (const w of Object.entries(Object.entries(dataLayer).reduce(((x, y) => ({ ...x[1], ...y[1] })), {}))) zaraz.set(w[0], w[1], { scope: "page" }); j[l].q = []; for (; j.zaraz.q.length;) { const z = j.zaraz.q.shift(); j[l].q.push(z) } r.defer = !0; for (const A of [localStorage, sessionStorage]) Object.keys(A || {}).filter((C => C.startsWith("_zaraz_"))).forEach((B => { try { j[l]["z_" + B.slice(7)] = JSON.parse(A.getItem(B)) } catch { j[l]["z_" + B.slice(7)] = A.getItem(B) } })); r.referrerPolicy = "origin"; r.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(j[l]))); q.parentNode.insertBefore(r, q) };["complete", "interactive"].includes(k.readyState) ? zaraz.init() : j.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document) } catch (e) { throw fetch("/cdn-cgi/zaraz/t"), e; };</script>
 </head>
-<body>
+<body class="animsition">
 
-    @await Html.PartialAsync("_navbar")          
+    <header class="header-v4">
 
-    <main class="my-3">
-        <div class="container">     
+        <div class="container-menu-desktop">
 
-            @if(TempData["message"]!=null)
-            {
-                <partial name="_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))"/>
-            }      
-             
-            @RenderBody()             
+            <div class="top-bar">
+                <div class="content-topbar flex-sb-m h-full container">
+                    <div class="left-top-bar">
+                    </div>
+                    <div class="right-top-bar flex-w h-full">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <a href="#" class="flex-c-m trans-04 p-lr-25">
+                                @User.Identity.Name
+                            </a>
+
+
+                            <a href="/account/logout" class="flex-c-m trans-04 p-lr-25">Çıkış Yap</a>
+
+                        }
+                        else
+                        {
+
+                            <a href="/account/login" class="flex-c-m trans-04 p-lr-25">Giriş Yap</a>
+
+                            <a href="/account/register" class="flex-c-m trans-04 p-lr-25">Kayıt Ol</a>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-menu-desktop how-shadow1">
+                <nav class="limiter-menu-desktop container">
+
+                    <a href="~/Home/Index" class="logo">
+                        @* <img src="/temp/images/icons/logo-01.png" alt="IMG-LOGO"> *@
+                        <img src="~/img/aylogo.jpg" alt="IMG-LOGO">
+                    </a>
+
+                    <div class="menu-desktop">
+                        <ul class="main-menu">
+                            <li>
+                                <a href="~/Home/Index">Anasayfa</a>
+                            </li>
+                            <li>
+                                <a href="/products" class="nav-link">Ürünler</a>
+                            </li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="/cart" class="nav-link">Sepet</a>
+                                </li>
+                                <li>
+                                    <a href="/orders" class="nav-link">Siparişler</a>
+                                </li>
+
+                                if (User.IsInRole("admin"))
+                                {
+                                    <li>
+                                        <a href="/admin/products" class="nav-link">Ürün İşlemleri</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/categories" class="nav-link">Kategori İşlemleri</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/role/list" class="nav-link">Roller</a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/user/list" class="nav-link">Kullanıcılar</a>
+                                    </li>
+                                }
+                            }
+
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="wrap-icon-header flex-w flex-r-m">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                            <i class="zmdi zmdi-search"></i>
+                        </div>
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
         </div>
-    </main>
 
-    <footer class="py-5 bg-dark text-white text-center">
-        Shop App
+        <div class="wrap-header-mobile" style="width: 100%; background-color:black; height:40px; justify-content:flex-end">
+            <div class="top-bar">
+                <div class="content-topbar flex-sb-m h-full container" style="background-color: black;">
+                    <div class="left-top-bar">
+                    </div>
+                    <div class="right-top-bar flex-w h-full">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <a href="#" class="flex-c-m trans-04 p-lr-25">
+                                @User.Identity.Name
+                            </a>
+
+
+                            <a href="/account/logout" class="flex-c-m trans-04 p-lr-25">Çıkış Yap</a>
+
+                        }
+                        else
+                        {
+
+                            <a href="/account/login" class="flex-c-m trans-04 p-lr-25">Giriş Yap</a>
+
+                            <a href="/account/register" class="flex-c-m trans-04 p-lr-25">Kayıt Ol</a>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="wrap-header-mobile">
+
+            <div class="logo-mobile">
+                <a href="/Home/Index"><img src="~/img/aylogo.jpg" alt="IMG-LOGO"></a>
+
+            </div>
+
+            <div class="wrap-icon-header flex-w flex-r-m m-r-15">
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                    <i class="zmdi zmdi-search"></i>
+                </div>
+                <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+                    <i class="zmdi zmdi-shopping-cart"></i>
+                </div>
+
+            </div>
+
+            <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+                <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="menu-mobile">
+            <ul class="main-menu-m">
+                <li>
+                    <a href="/Home/Index">Anasayfa</a>
+                </li>
+                <li>
+                    <a href="/products">Ürünler</a>
+                </li>
+                <li>
+                    <a href="/cart">Sepet</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+            <div class="container-search-header">
+                @await Component.InvokeAsync("Search")
+
+                <button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+                    <img src="/temp/images/icons/icon-close2.png" alt="CLOSE">
+
+
+
+                </button>
+            </div>
+        </div>
+    </header>
+
+    @await Component.InvokeAsync("Cart", User)
+
+
+    @RenderBody()
+
+
+    <footer class="bg3 p-t-75 p-b-32">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        Kategoriler
+                    </h4>
+                    <ul>
+                        <li class="p-b-10">
+                            <a href="/products/telefon" class="stext-107 cl7 hov-cl1 trans-04">
+                                Telefon
+                            </a>
+                        </li>
+                        <li class="p-b-10">
+                            <a href="/products/bilgisayar" class="stext-107 cl7 hov-cl1 trans-04">
+                                Bilgisayar
+                            </a>
+                        </li>
+                        <li class="p-b-10">
+                            <a href="/products/tablet" class="stext-107 cl7 hov-cl1 trans-04">
+                                Tablet
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-lg-3 p-b-50">
+                    <h4 class="stext-301 cl0 p-b-30">
+                        İletişim
+                    </h4>
+                    <p class="stext-107 cl7 size-201">
+                        Kemalpaşa, Esentepe Kampüsü, Üniversite Cd., 54050 Serdivan/Sakarya 444 1 728
+                    </p>
+                    <div class="p-t-27">
+                        <a href="https://www.facebook.com/sakaryauni/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/sakaryauni/?hl=tr" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                        <a href="https://tr.pinterest.com/habersau/" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+                            <i class="fa fa-pinterest-p"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-t-40">
+            <div class="flex-c-m flex-w p-b-18">
+                <a href="#" class="m-all-1">
+                    <img src="/temp/images/icons/icon-pay-01.png" alt="ICON-PAY">
+                </a>
+                <a href="#" class="m-all-1">
+                    <img src="/temp/images/icons/icon-pay-02.png" alt="ICON-PAY">
+                </a>
+                <a href="#" class="m-all-1">
+                    <img src="/temp/images/icons/icon-pay-03.png" alt="ICON-PAY">
+                </a>
+                <a href="#" class="m-all-1">
+                    <img src="/temp/images/icons/icon-pay-04.png" alt="ICON-PAY">
+                </a>
+                <a href="#" class="m-all-1">
+                    <img src="/temp/images/icons/icon-pay-05.png" alt="ICON-PAY">
+                </a>
+            </div>
+            <p class="stext-107 cl6 txt-center">
+
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tüm Hakları Saklıdır
+
+            </p>
+        </div>
+        </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <div class="btn-back-to-top" id="myBtn">
+        <span class="symbol-btn-back-to-top">
+            <i class="zmdi zmdi-chevron-up"></i>
+        </span>
+    </div>
+
+    @*  <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+    <div class="overlay-modal1 js-hide-modal1"></div>
+    <div class="container">
+    <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+    <button class="how-pos3 hov3 trans-04 js-hide-modal1">
+    <img src="/temp/images/icons/icon-close.png" alt="CLOSE">
+    </button>
+    <div class="row">
+    <div class="col-md-6 col-lg-7 p-b-30">
+    <div class="p-l-25 p-r-30 p-lr-0-lg">
+    <div class="wrap-slick3 flex-sb flex-w">
+    <div class="wrap-slick3-dots"></div>
+    <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+    <div class="slick3 gallery-lb">
+    <div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+    <div class="wrap-pic-w pos-relative">
+    <img src="/temp/images/product-detail-01.jpg" alt="IMG-PRODUCT">
+    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/temp/images/product-detail-01.jpg">
+    <i class="fa fa-expand"></i>
+    </a>
+    </div>
+    </div>
+    <div class="item-slick3" data-thumb="images/product-detail-02.jpg">
+    <div class="wrap-pic-w pos-relative">
+    <img src="/temp/images/product-detail-02.jpg" alt="IMG-PRODUCT">
+    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/temp/images/product-detail-02.jpg">
+    <i class="fa fa-expand"></i>
+    </a>
+    </div>
+    </div>
+    <div class="item-slick3" data-thumb="images/product-detail-03.jpg">
+    <div class="wrap-pic-w pos-relative">
+    <img src="/temp/images/product-detail-03.jpg" alt="IMG-PRODUCT">
+    <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="/temp/images/product-detail-03.jpg">
+    <i class="fa fa-expand"></i>
+    </a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6 col-lg-5 p-b-30">
+    <div class="p-r-50 p-t-5 p-lr-0-lg">
+    <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+    Lightweight Jacket
+    </h4>
+    <span class="mtext-106 cl2">
+    $58.79
+    </span>
+    <p class="stext-102 cl3 p-t-23">
+    Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+    </p>
+
+    <div class="p-t-33">
+    <div class="flex-w flex-r-m p-b-10">
+    <div class="size-203 flex-c-m respon6">
+    Size
+    </div>
+    <div class="size-204 respon6-next">
+    <div class="rs1-select2 bor8 bg0">
+    <select class="js-select2" name="time">
+    <option>Choose an option</option>
+    <option>Size S</option>
+    <option>Size M</option>
+    <option>Size L</option>
+    <option>Size XL</option>
+    </select>
+    <div class="dropDownSelect2"></div>
+    </div>
+    </div>
+    </div>
+    <div class="flex-w flex-r-m p-b-10">
+    <div class="size-203 flex-c-m respon6">
+    Color
+    </div>
+    <div class="size-204 respon6-next">
+    <div class="rs1-select2 bor8 bg0">
+    <select class="js-select2" name="time">
+    <option>Choose an option</option>
+    <option>Red</option>
+    <option>Blue</option>
+    <option>White</option>
+    <option>Grey</option>
+    </select>
+    <div class="dropDownSelect2"></div>
+    </div>
+    </div>
+    </div>
+    <div class="flex-w flex-r-m p-b-10">
+    <div class="size-204 flex-w flex-m respon6-next">
+    <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+    <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+    <i class="fs-16 zmdi zmdi-minus"></i>
+    </div>
+    <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+    <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+    <i class="fs-16 zmdi zmdi-plus"></i>
+    </div>
+    </div>
+    <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+    Add to cart
+    </button>
+    </div>
+    </div>
+    </div>
+
+    <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+    <div class="flex-m bor9 p-r-10 m-r-11">
+    <a href="/temp/#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+    <i class="zmdi zmdi-favorite"></i>
+    </a>
+    </div>
+    <a href="/temp/#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+    <i class="fa fa-facebook"></i>
+    </a>
+    <a href="/temp/#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+    <i class="fa fa-twitter"></i>
+    </a>
+    <a href="/temp/#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+    <i class="fa fa-google-plus"></i>
+    </a>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div> *@
+
+    <script src="/temp/vendor/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="/temp/vendor/animsition/js/animsition.min.js"></script>
+
+    <script src="/temp/vendor/bootstrap/js/popper.js"></script>
+    <script src="/temp/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="/temp/vendor/select2/select2.min.js"></script>
+    <script>
+        $(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
+        })
+    </script>
+
+    <script src="/temp/vendor/daterangepicker/moment.min.js"></script>
+    <script src="/temp/vendor/daterangepicker/daterangepicker.js"></script>
+
+    <script src="/temp/vendor/slick/slick.min.js"></script>
+    <script src="/temp/js/slick-custom.js"></script>
+
+    <script src="/temp/vendor/parallax100/parallax100.js"></script>
+    <script>
+        $('.parallax100').parallax100();
+    </script>
+
+    <script src="/temp/vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+    <script>
+        $('.gallery-lb').each(function () { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: 'a', // the selector for gallery item
+                type: 'image',
+                gallery: {
+                    enabled: true
+                },
+                mainClass: 'mfp-fade'
+            });
+        });
+    </script>
+
+    <script src="/temp/vendor/isotope/isotope.pkgd.min.js"></script>
+
+    <script src="/temp/vendor/sweetalert/sweetalert.min.js"></script>
+    <script>
+        $('.js-addwish-b2, .js-addwish-detail').on('click', function (e) {
+            e.preventDefault();
+        });
+
+        $('.js-addwish-b2').each(function () {
+            var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to wishlist !", "success");
+
+                $(this).addClass('js-addedwish-b2');
+                $(this).off('click');
+            });
+        });
+
+        $('.js-addwish-detail').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to wishlist !", "success");
+
+                $(this).addClass('js-addedwish-detail');
+                $(this).off('click');
+            });
+        });
+
+        /*---------------------------------------------*/
+
+        $('.js-addcart-detail').each(function () {
+            var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to cart !", "success");
+            });
+        });
+
+    </script>
+
+    <script src="/temp/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script>
+        $('.js-pscroll').each(function () {
+            $(this).css('position', 'relative');
+            $(this).css('overflow', 'hidden');
+            var ps = new PerfectScrollbar(this, {
+                wheelSpeed: 1,
+                scrollingThreshold: 1000,
+                wheelPropagation: false,
+            });
+
+            $(window).on('resize', function () {
+                ps.update();
+            })
+        });
+    </script>
+
+    <script src="/temp/js/main.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v55bfa2fee65d44688e90c00735ed189a1713218998793" integrity="sha512-FIKRFRxgD20moAo96hkZQy/5QojZDAbyx0mQ17jEGHCJc/vi0G2HXLtofwD7Q3NmivvP9at5EVgbRqOaOQb+Rg==" data-cf-beacon='{"rayId":"87ce090ac877363e","b":1,"version":"2024.4.1","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
+
     @RenderSection("Scripts",false)
+
+
 </body>
+
 </html>

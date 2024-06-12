@@ -1,8 +1,8 @@
-@model OrderModel
+@* @model OrderModel 
 
 <h1>Checkout</h1>
 <hr>
-<div class="row">
+ <div class="row">
     <div class="col-md-8">
         <h4 class="mb-3">Sipariş Detayı</h4>
         <form method="POST" asp-controller="Cart" asp-action="Checkout">
@@ -45,7 +45,7 @@
                     <div class="col-md-6">
                     <label asp-for="@Model.CardNumber"></label>
                     <input asp-for="@Model.CardNumber" class="form-control">
-                </div>              
+                </div>
             </div>
              <div class="row mb-3">
                 <div class="col-md-4">
@@ -55,11 +55,11 @@
                     <div class="col-md-4">
                     <label asp-for="@Model.ExpirationYear"></label>
                     <input asp-for="@Model.ExpirationYear" class="form-control">
-                </div>  
+                </div>
                   <div class="col-md-4">
                     <label asp-for="@Model.Cvc"></label>
                     <input asp-for="@Model.Cvc" class="form-control">
-                </div>             
+                </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
         </form>
@@ -78,13 +78,98 @@
                     </div>
                     <span class="text-muted">@item.Price.ToString("c")</span>
                 </li>
-            }          
-              
+            }
+
             <li class="list-group-item d-flex justify-content-between">
                 <span>Toplam (TL)</span>
                 <strong>@Model.CartModel.TotalPrice().ToString("c")</strong>
             </li>
         </ul>
-       
+
+    </div>
+</div>
+ *@
+
+
+@model OrderModel
+<div class="bg0 p-t-75 p-b-85">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 m-lr-auto m-b-50">
+                <div class="bor15 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <form method="POST" asp-controller="Cart" asp-action="Checkout">
+                        <input type="hidden" name="cartId" value="0">
+                        <h4 class="mtext-109 cl2 p-b-30">Sipariş Detayı</h4>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input asp-for="@Model.FirstName" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Ad">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.LastName" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Soyad">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.Address" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Adres">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.City" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Şehir">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.Phone" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Telefon">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.Email" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Email">
+                            </div>
+                        </div>
+                        <h4 class="mtext-109 cl2 p-b-30">Ödeme Bilgileri</h4>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input asp-for="@Model.CardName" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Isim Soyisim">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.CardNumber" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Kart Numarası">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.ExpirationMonth" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Ay">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.ExpirationYear" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Yıl">
+                            </div>
+                            <div class="col-md-6">
+                                <input asp-for="@Model.Cvc" class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5 form-control" placeholder="Cvc">
+                            </div>
+                        </div>
+                        <button type="submit" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">Gönder</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 m-b-50">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">Özet Bilgiler</h4>
+                    <div class="flex-w flex-t bor12 p-b-13">
+                        @foreach (var item in Model.CartModel.CartItems)
+                        {
+                            <div class="size-208" style="flex: 1;">
+                                <span class="stext-110 cl2">
+                                    @item.Name
+                                </span>
+                            </div>
+                            <div class="size-209" style="flex: 1;">
+                                <span class="mtext-110 cl2">
+                                    @item.Price.ToString("c") ₺
+                                </span>
+                            </div>
+                        }
+                    </div>
+                    <div class="flex-w flex-t p-t-27 p-b-33">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">Toplam:</span>
+                        </div>
+                        <div class="size-209 p-t-1">
+                            <span class="mtext-110 cl2">@Model.CartModel.TotalPrice().ToString("c") ₺</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

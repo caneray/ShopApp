@@ -15,23 +15,48 @@ namespace shopapp.webui.Controllers
         }
 
         // localhost/products/telefon?page=1
-        public IActionResult List(string category,int page=1)
+        //public IActionResult List(string category,int page=1)
+        //{
+        //    const int pageSize=2;
+        //    var productViewModel = new ProductListViewModel()
+        //    {
+        //        PageInfo = new PageInfo()
+        //        {
+        //            TotalItems = _productService.GetCountByCategory(category),
+        //            CurrentPage = page,
+        //            ItemsPerPage = pageSize,
+        //            CurrentCategory = category
+        //        },
+        //        Products = _productService.GetProductsByCategory(category,page,pageSize)
+        //    };
+
+        //    return View(productViewModel);
+        //}
+
+        public IActionResult List(string category, int page = 1)
         {
-            const int pageSize=2;
+            // Toplam ürün sayýsýný al
+            int totalItems = _productService.GetCountByCategory(category);
+
+            // pageSize deðerini alýnan ürün sayýsýna göre ayarla
+            int pageSize = totalItems; // Her sayfada tüm ürünleri göster
+
+            // ProductListViewModel'i oluþtur
             var productViewModel = new ProductListViewModel()
             {
                 PageInfo = new PageInfo()
                 {
-                    TotalItems = _productService.GetCountByCategory(category),
+                    TotalItems = totalItems,
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
                     CurrentCategory = category
                 },
-                Products = _productService.GetProductsByCategory(category,page,pageSize)
+                Products = _productService.GetProductsByCategory(category, page, pageSize)
             };
 
             return View(productViewModel);
         }
+
 
         public IActionResult Details(string url)
         {

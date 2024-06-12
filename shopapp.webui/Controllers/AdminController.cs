@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using shopapp.business.Abstract;
 using shopapp.entity;
@@ -16,8 +18,7 @@ using shopapp.webui.Models;
 
 namespace shopapp.webui.Controllers
 {
-    // sadikturan, efeturan, yigitbilgi => admin
-    // adabilgi => customer
+
     [Authorize(Roles="admin")]
     public class AdminController: Controller
     {
@@ -25,15 +26,18 @@ namespace shopapp.webui.Controllers
         private ICategoryService _categoryService;
         private RoleManager<IdentityRole> _roleManager;
         private UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _environment;
         public AdminController(IProductService productService,
                                ICategoryService categoryService,
                                RoleManager<IdentityRole> roleManager,
-                               UserManager<User> userManager)
+                               UserManager<User> userManager,
+                               IWebHostEnvironment environment)
         {
             _productService = productService;
             _categoryService = categoryService;
             _roleManager = roleManager;
             _userManager = userManager;
+            _environment = environment;
         }
 
 
@@ -164,6 +168,22 @@ namespace shopapp.webui.Controllers
             return View(_roleManager.Roles);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+            if (role != null)
+            {
+                var result = await _roleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("RoleList"); 
+                }
+            }
+           
+            return RedirectToAction("RoleList"); 
+        }
+
         public IActionResult RoleCreate()
         {
             return View();
@@ -209,9 +229,9 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProductCreate(ProductModel model)
+        public async Task<IActionResult> ProductCreate(ProductModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var entity = new Product()
                 {
@@ -219,30 +239,45 @@ namespace shopapp.webui.Controllers
                     Url = model.Url,
                     Price = model.Price,
                     Description = model.Description,
-                    ImageUrl = model.ImageUrl
+                    ImageUrl = model.ImageUrl 
                 };
                 
-                if(_productService.Create(entity))
-                {                    
+                var file = Request.Form.Files.FirstOrDefault();
+                if (file != null)
+                {
+                    var extension = Path.GetExtension(file.FileName);
+                    var randomName = $"{Guid.NewGuid()}{extension}";
+                    entity.ImageUrl = randomName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+
+                if (_productService.Create(entity))
+                {
                     TempData.Put("message", new AlertMessage()
                     {
-                        Title="kayıt eklendi",
-                        Message="kayıt eklendi",
-                        AlertType="success"
+                        Title = "Kayıt eklendi",
+                        Message = "Kayıt eklendi",
+                        AlertType = "success"
                     });
                     return RedirectToAction("ProductList");
                 }
                 TempData.Put("message", new AlertMessage()
                 {
-                    Title="hata",
-                    Message=_productService.ErrorMessage,
-                    AlertType="danger"
-                });                
+                    Title = "Hata",
+                    Message = _productService.ErrorMessage,
+                    AlertType = "danger"
+                });
 
                 return View(model);
-            }            
-            return View(model);         
+            }
+            return View(model);
         }
+
         public IActionResult CategoryCreate()
         {
             return View();
@@ -450,5 +485,6 @@ namespace shopapp.webui.Controllers
             _categoryService.DeleteFromCategory(productId,categoryId);
             return Redirect("/admin/categories/"+categoryId);
         }
+
     }
 }

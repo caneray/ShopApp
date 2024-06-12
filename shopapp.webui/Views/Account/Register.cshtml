@@ -1,8 +1,8 @@
-@model RegisterModel
+﻿@* @model RegisterModel
 
 <h1 class="h3">Register</h1>
 <hr>
-
+<meta charset="utf-8" />
 <div class="row">
     <div class="col-md-8">
         <form asp-controller="Account" asp-action="Register" method="POST">
@@ -48,7 +48,7 @@
                 <input class="form-control" asp-for="Email">
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-        </div>   
+        </div>
 
         <div class="form-group row">
             <div class="col-sm-10 offset-sm-2">
@@ -61,6 +61,70 @@
 
 @section Scripts
 {
+    <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+} *@
+
+<meta charset="utf-8" />
+@model RegisterModel
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    
+    <div class="card shadow-lg" style="max-width: 400px; width: 100%;">
+        <div class="card-header text-center bg-dark text-white">
+            <h3 class="h3 mb-0">Kayıt Ol</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Account" asp-action="Register" method="POST">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName" class="form-label">Ad</label>
+                    <input class="form-control" asp-for="FirstName">
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="LastName" class="form-label">Soyad</label>
+                    <input class="form-control" asp-for="LastName">
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserName" class="form-label">Kullanıcı Adı</label>
+                    <input class="form-control" asp-for="UserName">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Password" class="form-label">Şifre</label>
+                    <input class="form-control" asp-for="Password" type="password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="RePassword" class="form-label">Şifreyi Tekrar Girin</label>
+                    <input class="form-control" asp-for="RePassword" type="password">
+                    <span asp-validation-for="RePassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input class="form-control" asp-for="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-outline-dark btn-block">Kayıt Ol</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
     <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }

@@ -1,0 +1,163 @@
+﻿@* <div class="card mt-3">
+    <div class="card-header">
+        <h5>Search</h5>
+    </div>
+    <div class="card-body">
+        <form action="/search">
+            <div class="form-group">
+                <input name="q" type="text" class="form-control" id="searchInput" placeholder="Ürünün Adını Girin">
+            </div>
+
+            <div class="row">
+                <div class="col-6 pr-0">
+                    <button type="button" class="btn btn-primary btn-sm btn-block" id="startListening">Bas Konuş</button>
+                </div>
+                <div class="col-6 pl-0">    
+                    <button type="button" class="btn btn-secondary btn-sm btn-block" id="stopListening" disabled>Konuşmayı Bitir</button>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <button type="submit" class="btn btn-danger btn-sm btn-block">Ara</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const outputDiv = document.getElementById('searchInput');
+        const startListeningButton = document.getElementById('startListening');
+        const stopListeningButton = document.getElementById('stopListening');
+
+        let recognition = new webkitSpeechRecognition(); // For Webkit browsers like Chrome
+
+        recognition.continuous = true;
+        recognition.lang = 'en-US';
+
+        recognition.onstart = () => {
+            outputDiv.placeholder = 'Listening...';
+            startListeningButton.disabled = true;
+            stopListeningButton.disabled = false;
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[event.results.length - 1][0].transcript;
+            outputDiv.value = transcript;
+        };
+
+        recognition.onerror = (event) => {
+            outputDiv.placeholder = 'Error occurred: ' + event.error;
+            recognition.stop();
+        };
+
+        recognition.onend = () => {
+            outputDiv.placeholder = 'Search';
+            startListeningButton.disabled = false;
+            stopListeningButton.disabled = true;
+        };
+
+        startListeningButton.addEventListener('click', startSpeech);
+        stopListeningButton.addEventListener('click', stopSpeech);
+
+        function startSpeech() {
+            recognition.start();
+        }
+
+        function stopSpeech() {
+            recognition.stop();
+        }
+    });
+</script>
+ *@
+
+
+<div class="card mt-3">
+    <div class="card-header">
+        <h5>Arama</h5>
+    </div>
+    <div class="card-body">
+        <form action="/search">
+            <div class="form-group">
+                <input name="q" type="text" class="form-control" id="searchInput" placeholder="Ürünün Adını Girin">
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-sm btn-block" id="startListening">Butona Basıp Konuşmaya Başla</button>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <button type="submit" class="btn btn-danger btn-sm btn-block" id="submitButton">Ara</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const outputDiv = document.getElementById('searchInput');
+        const startListeningButton = document.getElementById('startListening');
+        const submitButton = document.getElementById('submitButton');
+
+        let recognition = new webkitSpeechRecognition(); // For Webkit browsers like Chrome
+
+        recognition.continuous = true;
+        recognition.lang = 'tr-tr'; // For Turkish language recognition
+
+        // Function to dynamically adjust placeholder text based on recognition state
+        function setPlaceholderText(text) {
+            outputDiv.placeholder = text;
+        }
+
+        recognition.onstart = () => {
+            setPlaceholderText('Listening...');
+            startListeningButton.disabled = true; // Disable start button while listening
+        };
+
+        // Stop recognition automatically after a period of silence
+        const silenceTimeout = 2000; // Time in milliseconds to wait for silence before stopping
+        let silenceTimer = null;
+
+        recognition.onresult = (event) => {
+            clearTimeout(silenceTimer); // Reset silence timer on speech
+
+            const transcript = event.results[event.results.length - 1][0].transcript;
+            outputDiv.value = transcript;
+
+            // Start a new silence timer to automatically stop recognition
+            silenceTimer = setTimeout(() => {
+                recognition.stop();
+            }, silenceTimeout);
+        };
+
+        recognition.onerror = (event) => {
+            setPlaceholderText('Error occurred: ' + event.error);
+            recognition.stop();
+        };
+
+        recognition.onend = () => {
+            setPlaceholderText('Search');
+            startListeningButton.disabled = false; // Enable start button after stopping
+        };
+
+        startListeningButton.addEventListener('click', startSpeech);
+
+        function startSpeech() {
+            recognition.start();
+        }
+
+        // Submit the search form when the user clicks the submit button
+        submitButton.addEventListener('click', () => {
+            // You can add additional logic here to validate or process the search query
+            // before submitting the form
+            event.preventDefault(); // Prevent default form submission behavior
+            // Submit the form using JavaScript or a framework like jQuery
+        });
+    });
+</script>   

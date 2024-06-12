@@ -1,4 +1,4 @@
-@model List<Category>
+@* @model List<Category>
 
  <div class="list-group">
     <a href="/products" class="list-group-item list-group-item-action">Tüm Kategoriler</a>
@@ -10,6 +10,25 @@
         asp-route-category="@item.Url" 
         class="list-group-item list-group-item-action @(ViewBag.SelectedCategory == item.Url?"active":"")">
             @item.Name
+         
         </a>
     }
-</div>   
+</div>    *@
+
+@model List<Category>
+<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+        Butun Urunler
+    </button>
+    @foreach (var item in Model)
+    {
+        <a asp-controller="Shop"
+           asp-action="List"
+           asp-route-category="@item.Url"
+           class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+            @item.Name
+
+        </a>
+  
+    }
+</div>

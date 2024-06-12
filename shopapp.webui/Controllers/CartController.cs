@@ -109,7 +109,14 @@ namespace shopapp.webui.Controllers
 
                 var payment = PaymentProcess(model);
 
-                if(payment.Status=="success")
+                if (payment.Status == "failure")
+                {
+                    // Ödeme başarısız oldu, hata mesajını yazdır
+                    Console.WriteLine("Ödeme başarısız: " + payment.ErrorMessage);
+                }
+
+
+                if (payment.Status=="success")
                 {
                     SaveOrder(model,payment,userId);
                     ClearCart(model.CartModel.CartId);
@@ -126,13 +133,12 @@ namespace shopapp.webui.Controllers
                     }
                 }
             return View(model);
-        }
+        }   
 
         public IActionResult GetOrders()
         {
             var userId = _userManager.GetUserId(User);    
             var orders =_orderService.GetOrders(userId);
-
             var orderListModel = new List<OrderListModel>();
             OrderListModel orderModel;
             foreach (var order in orders)
@@ -208,8 +214,8 @@ namespace shopapp.webui.Controllers
         private Payment PaymentProcess(OrderModel model)
         {
             Options options = new Options();
-            options.ApiKey = "sandbox-RStpAR6sBz86RpFTuWPyF7hjh8c8g9E4";
-            options.SecretKey = "sandbox-0zu0oxpXipwFsSGu1FrSofDVhTrWig2p";
+            options.ApiKey = "sandbox-BBLEzgFhlHwcoizn47I4nuonXzdGXMuP";
+            options.SecretKey = "sandbox-Dmth34ceKTDE02kPIp7Zlw8JQNvs5sBB";
             options.BaseUrl = "https://sandbox-api.iyzipay.com";
                     
             CreatePaymentRequest request = new CreatePaymentRequest();
@@ -241,31 +247,41 @@ namespace shopapp.webui.Controllers
             buyer.Id = "BY789";
             buyer.Name = model.FirstName;
             buyer.Surname = model.LastName;
-            buyer.GsmNumber = "+905350000000";
-            buyer.Email = "email@email.com";
+            //buyer.GsmNumber = "+905350000000";
+            buyer.GsmNumber = model.Phone;
+            //buyer.Email = "email@email.com";
+            buyer.Email = model.Email;
             buyer.IdentityNumber = "74300864791";
-            buyer.LastLoginDate = "2015-10-05 12:43:35";
-            buyer.RegistrationDate = "2013-04-21 15:12:09";
-            buyer.RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            buyer.LastLoginDate = "2024-06-09 22:23:36";
+            buyer.RegistrationDate = "2024-05-10 15:12:09";
+            //buyer.RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            buyer.RegistrationAddress = model.City;
             buyer.Ip = "85.34.78.112";
-            buyer.City = "Istanbul";
+            //buyer.City = "Istanbul";
+            buyer.City = model.City;
             buyer.Country = "Turkey";
             buyer.ZipCode = "34732";
             request.Buyer = buyer;
 
             Address shippingAddress = new Address();
-            shippingAddress.ContactName = "Jane Doe";
-            shippingAddress.City = "Istanbul";
+            //shippingAddress.ContactName = "Jane Doe";
+            shippingAddress.ContactName = model.FirstName + " " + model.LastName;
+            //shippingAddress.City = "Istanbul";
+            shippingAddress.City = model.City;
             shippingAddress.Country = "Turkey";
-            shippingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            //shippingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            shippingAddress.Description = model.Address;
             shippingAddress.ZipCode = "34742";
             request.ShippingAddress = shippingAddress;
 
             Address billingAddress = new Address();
-            billingAddress.ContactName = "Jane Doe";
-            billingAddress.City = "Istanbul";
+            //billingAddress.ContactName = "Jane Doe";
+            billingAddress.ContactName = model.FirstName + " " + model.LastName;
+            //billingAddress.City = "Istanbul";
+            billingAddress.City = model.City;
             billingAddress.Country = "Turkey";
-            billingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            //billingAddress.Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+            billingAddress.Description = model.Address;
             billingAddress.ZipCode = "34742";
             request.BillingAddress = billingAddress;
 
@@ -278,7 +294,7 @@ namespace shopapp.webui.Controllers
                 basketItem.Id = item.ProductId.ToString();
                 basketItem.Name = item.Name;
                 basketItem.Category1 = "Telefon";
-                basketItem.Price = item.Price.ToString();
+                basketItem.Price = (item.Price * item.Quantity).ToString();
                 basketItem.ItemType = BasketItemType.PHYSICAL.ToString();
                 basketItems.Add(basketItem);
             }          

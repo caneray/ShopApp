@@ -1,4 +1,4 @@
-@model RoleDetails
+@* @model RoleDetails
 
 <h1 class="h3">Edit Role</h1>
 <hr>
@@ -55,5 +55,76 @@
         </form>
 
 
+    </div>
+</div> *@
+
+
+@model RoleDetails
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-dark text-white text-center">
+            <h2>Rol Düzenle</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="RoleEdit">
+                <input type="hidden" name="RoleId" value="@Model.Role.Id">
+                <input type="hidden" name="RoleName" value="@Model.Role.Name">
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <h6 class="bg-info text-white p-2">@Model.Role.Name Rolüne ekleyebileceğin kullanıcılar</h6>
+                        <table class="table table-bordered table-sm">
+                            @if (Model.NonMembers.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="2">Tüm kullanıcılar bu role zaten atanmış.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var user in Model.NonMembers)
+                                {
+                                    <tr>
+                                        <td>@user.UserName</td>
+                                        <td style="width: 150px;">
+                                            <input type="checkbox" name="IdsToAdd" value="@user.Id">
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+
+                    <div class="col">
+                        <h6 class="bg-info text-white p-2">@Model.Role.Name Rolünden Çıkarabileceğin Kullanıcılar</h6>
+                        <table class="table table-bordered table-sm">
+                            @if (Model.Members.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="2">Bu role atanmış kullanıcı yok.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var user in Model.Members)
+                                {
+                                    <tr>
+                                        <td>@user.UserName</td>
+                                        <td style="width: 150px;">
+                                            <input type="checkbox" name="IdsToDelete" value="@user.Id">
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -7,7 +7,6 @@ using shopapp.webui.Models;
 
 namespace shopapp.webui.Controllers
 {
-    // localhost:5000/home
     public class HomeController:Controller
     {      
         private IProductService _productService;

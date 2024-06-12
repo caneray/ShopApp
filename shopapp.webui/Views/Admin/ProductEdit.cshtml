@@ -1,4 +1,4 @@
-@model ProductModel
+﻿@* @model ProductModel
 
 <h1 class="h3">Edit Product</h1>
 <hr>
@@ -99,6 +99,99 @@
 {
     <script src="/modules/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/modules/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
+} *@
+
+@model ProductModel
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-dark text-white text-center ">
+            <h3>Ürün Düzenle</h3>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Admin" asp-action="ProductEdit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="ProductId" value="@Model.ProductId">
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Adı</label>
+                    <input class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Url" class="form-label">Ürün Linki</label>
+                    <input class="form-control" asp-for="Url">
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Açıklama</label>
+                    <textarea id="editor" class="form-control" asp-for="Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Fiyat</label>
+                    <input class="form-control" asp-for="Price">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label">Resim Linki</label>
+                    <input type="hidden" asp-for="ImageUrl">
+                    <div class="mb-2">
+                        <img src="~/img/@Model.ImageUrl" class="img-thumbnail" width="100" />
+                    </div>
+                    <input type="file" name="file" class="form-control">
+                </div>
+
+                <h5 class="mb-3">Ürünün Bulunduğu Kategoriler</h5>
+                @for (int i = 0; i < Model.SelectedCategories.Count; i++)
+                {
+                    <input type="hidden" name="SelectedCategories[@i].CategoryId" value="@Model.SelectedCategories[@i].CategoryId">
+                    <input type="hidden" name="SelectedCategories[@i].Name" value="@Model.SelectedCategories[@i].Name">
+                }
+
+                <div class="mb-3">
+                    @foreach (var item in (List<Category>)ViewBag.Categories)
+                    {
+                        <div class="form-check ml-4">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="categoryIds"
+                                   value="@item.CategoryId"
+                                   id="category_@(item.CategoryId)"
+                            @(Model.SelectedCategories.Any(i => i.CategoryId == item.CategoryId) ? "checked" : "")>
+                            <label class="form-check-label" for="category_@(item.CategoryId)">@item.Name</label>
+                        </div>
+                    }
+                </div>
+
+                <h5 class="mb-3">Ayarlar</h5>
+                <div class="form-check mb-2 ml-4">
+                    <input asp-for="IsApproved" type="checkbox" class="form-check-input" id="isApproved">
+                    <label asp-for="IsApproved" class="form-check-label" for="isApproved">Onaylı Ürün</label>
+                </div>
+
+                <div class="form-check mb-4 ml-4">
+                    <input asp-for="IsHome" type="checkbox" class="form-check-input" id="isHome">
+                    <label asp-for="IsHome" class="form-check-label" for="isHome">Anasayfada Göster</label>
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-lg btn-block">Ürünü Kaydet</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="/modules/ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editor');
