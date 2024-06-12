@@ -14,3 +14,8 @@
 
 2. dotnet ef migrations add InitialCreate --context ApplicationContext --startup-project shopapp.webui --project shopapp.data
 
+
+
+### NOT;
+
+Siteye giriş yapmak için admin ve kullanıcı için şifreler appsettings.json dosyasında mevcuttur.
